@@ -9,8 +9,12 @@ class NewsController extends Controller
 {
     public function index()
     {
-        // Get news with pagination
-        $news = News::latest('published_at')->paginate(6);
+        // Get news with pagination (with try-catch for Vercel)
+        try {
+            $news = News::latest('published_at')->paginate(6);
+        } catch (\Exception $e) {
+            $news = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 6);
+        }
         return view('news.index', compact('news'));
     }
 
