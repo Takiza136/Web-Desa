@@ -9,9 +9,14 @@ class PageController extends Controller
 {
     public function home()
     {
-        // Get 3 latest news
-        $latestNews = News::latest('published_at')->take(3)->get();
-        
+        // Get 3 latest news (with try-catch for Vercel)
+        try {
+            $latestNews = News::latest('published_at')->take(3)->get();
+        } catch (\Exception $e) {
+            // Jika database tidak tersedia (misal di Vercel), gunakan data kosong
+            $latestNews = collect([]);
+        }
+
         // Dummy statistics
         $statistics = [
             ['label' => 'Penduduk', 'value' => '2,450', 'icon' => '👥'],
