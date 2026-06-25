@@ -13,3 +13,6 @@ Route::get('/berita/{news:slug}', [NewsController::class, 'show'])->name('news.s
 
 Route::get('/pelayanan', [ServiceController::class, 'index'])->name('service.index');
 Route::post('/pelayanan', [ServiceController::class, 'store'])->name('service.store');
+
+Route::get('/admin/surat', [ServiceController::class, 'adminIndex'])->name('admin.service.index');
+Route::delete('/admin/surat/{letterRequest}', [ServiceController::class, 'destroy'])->name('admin.service.destroy');

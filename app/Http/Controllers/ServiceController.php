@@ -25,4 +25,18 @@ class ServiceController extends Controller
 
         return back()->with('success', 'Permohonan surat berhasil dikirim. Silakan tunggu konfirmasi dari perangkat desa.');
     }
+
+    public function adminIndex()
+    {
+        $requests = LetterRequest::latest()->get();
+
+        return view('service.admin', compact('requests'));
+    }
+
+    public function destroy(LetterRequest $letterRequest)
+    {
+        $letterRequest->delete();
+
+        return back()->with('success', 'Data permohonan surat berhasil dihapus.');
+    }
 }
