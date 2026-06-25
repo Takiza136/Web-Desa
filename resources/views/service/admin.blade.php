@@ -4,11 +4,11 @@
 
 @section('content')
 <!-- Banner Header Admin -->
-<div class="bg-white py-10 border-b border-slate-200 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<div class="bg-slate-100 py-10 border-b border-slate-200 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-50 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-semibold tracking-wide uppercase mb-3 shadow-sm">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 border border-green-300/60 text-green-800 text-xs font-semibold tracking-wide uppercase mb-3 shadow-sm">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 Panel Administrasi Perangkat Desa
             </div>
@@ -16,7 +16,7 @@
             <p class="mt-2 text-slate-600 text-base max-w-2xl">Kelola dan periksa seluruh pengajuan surat pengantar yang masuk dari warga desa secara realtime.</p>
         </div>
         <div class="flex items-center gap-4">
-            <div class="bg-slate-50 border border-slate-200 px-5 py-3 rounded-xl text-center shadow-sm">
+            <div class="bg-white border border-slate-200 px-5 py-3 rounded-xl text-center shadow-sm">
                 <span class="block text-2xl font-extrabold text-green-600">{{ $requests->count() }}</span>
                 <span class="text-xs font-medium text-slate-500">Total Pengajuan</span>
             </div>
