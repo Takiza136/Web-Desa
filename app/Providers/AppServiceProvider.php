@@ -30,5 +30,19 @@ class AppServiceProvider extends ServiceProvider
                 Artisan::call('migrate', ['--force' => true]);
             }
         }
+
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
+                \App\Models\User::firstOrCreate(
+                    ['email' => 'admin@pasirbaru.go.id'],
+                    [
+                        'name' => 'Admin Perangkat Desa',
+                        'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            // Suppress exception during initial setup/build
+        }
     }
 }
