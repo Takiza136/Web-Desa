@@ -36,19 +36,19 @@
                     <a href="{{ url('/profil') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('profil*') ? 'border-white' : 'border-transparent' }}">Profil Desa</a>
 
                     @auth
-                        <div class="flex items-center pl-4 border-l border-gray-700 space-x-4">
-                            <a href="{{ route('admin.service.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-green-600/20">
+                        <div class="flex items-center pl-4 border-l border-white/20 space-x-4">
+                            <a href="{{ route('admin.service.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-green-600/20">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
                                 Panel Admin
                             </a>
                             <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
-                                <button type="submit" class="text-gray-400 hover:text-red-400 font-bold text-xs uppercase tracking-wider transition">Keluar</button>
+                                <button type="submit" class="text-white/70 hover:text-red-400 font-bold text-xs uppercase tracking-wider transition">Keluar</button>
                             </form>
                         </div>
                     @else
-                        <div class="pl-4 border-l border-gray-700">
-                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1 text-gray-400 hover:text-white px-3 py-1.5 rounded-lg border border-gray-700 hover:border-gray-500 text-xs font-bold uppercase tracking-wider transition">
+                        <div class="pl-4 border-l border-white/20">
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 bg-white/20 hover:bg-white text-white hover:text-slate-900 px-4 py-2 rounded-xl border border-white/40 text-xs font-bold uppercase tracking-wider transition shadow backdrop-blur-sm">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                                 Login Staf
                             </a>
