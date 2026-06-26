@@ -33,6 +33,7 @@
                     <a href="{{ url('/') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('/') ? 'border-white' : 'border-transparent' }}">Beranda</a>
                     <a href="{{ url('/berita') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('berita*') ? 'border-white' : 'border-transparent' }}">Kabar Desa</a>
                     <a href="{{ url('/pelayanan') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('pelayanan*') ? 'border-white' : 'border-transparent' }}">Pelayanan</a>
+                    <a href="{{ url('/pengarsipan') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('pengarsipan*') ? 'border-white' : 'border-transparent' }}">Pengarsipan Data</a>
                     <a href="{{ url('/profil') }}" class="text-white hover:text-blue-300 px-1 py-2 text-sm font-bold uppercase tracking-wider transition-colors border-b-2 {{ Request::is('profil*') ? 'border-white' : 'border-transparent' }}">Profil Desa</a>
 
                     @auth
@@ -73,6 +74,7 @@
                 <a href="{{ url('/') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ Request::is('/') ? 'border-blue-500 bg-gray-800 text-white' : 'border-transparent text-gray-300 hover:bg-gray-800 hover:text-white' }} text-base font-medium">Beranda</a>
                 <a href="{{ url('/berita') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ Request::is('berita*') ? 'border-blue-500 bg-gray-800 text-white' : 'border-transparent text-gray-300 hover:bg-gray-800 hover:text-white' }} text-base font-medium">Kabar Desa</a>
                 <a href="{{ url('/pelayanan') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ Request::is('pelayanan*') ? 'border-blue-500 bg-gray-800 text-white' : 'border-transparent text-gray-300 hover:bg-gray-800 hover:text-white' }} text-base font-medium">Pelayanan</a>
+                <a href="{{ url('/pengarsipan') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ Request::is('pengarsipan*') ? 'border-blue-500 bg-gray-800 text-white' : 'border-transparent text-gray-300 hover:bg-gray-800 hover:text-white' }} text-base font-medium">Pengarsipan Data</a>
                 <a href="{{ url('/profil') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ Request::is('profil*') ? 'border-blue-500 bg-gray-800 text-white' : 'border-transparent text-gray-300 hover:bg-gray-800 hover:text-white' }} text-base font-medium">Profil Desa</a>
 
                 @auth
@@ -118,6 +120,7 @@
                         <li><a href="{{ url('/') }}" class="text-gray-400 hover:text-white transition-colors">Beranda</a></li>
                         <li><a href="{{ url('/berita') }}" class="text-gray-400 hover:text-white transition-colors">Kabar Desa</a></li>
                         <li><a href="{{ url('/pelayanan') }}" class="text-gray-400 hover:text-white transition-colors">Pelayanan Administrasi</a></li>
+                        <li><a href="{{ url('/pengarsipan') }}" class="text-gray-400 hover:text-white transition-colors">Pengarsipan Data Warga</a></li>
                         <li><a href="{{ url('/profil') }}" class="text-gray-400 hover:text-white transition-colors">Profil Desa</a></li>
                     </ul>
                 </div>

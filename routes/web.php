@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -15,6 +16,9 @@ Route::get('/berita/{news:slug}', [NewsController::class, 'show'])->name('news.s
 Route::get('/pelayanan', [ServiceController::class, 'index'])->name('service.index');
 Route::post('/pelayanan', [ServiceController::class, 'store'])->name('service.store');
 
+Route::get('/pengarsipan', [ArchiveController::class, 'index'])->name('archive.index');
+Route::post('/pengarsipan', [ArchiveController::class, 'store'])->name('archive.store');
+
 // Autentikasi Staf Desa
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
@@ -24,4 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/admin/surat', [ServiceController::class, 'adminIndex'])->name('admin.service.index');
     Route::delete('/admin/surat/{letterRequest}', [ServiceController::class, 'destroy'])->name('admin.service.destroy');
+
+    Route::get('/admin/arsip', [ArchiveController::class, 'adminIndex'])->name('admin.archive.index');
+    Route::delete('/admin/arsip/{id}', [ArchiveController::class, 'destroy'])->name('admin.archive.destroy');
 });

@@ -26,6 +26,18 @@
             </a>
         </div>
     </div>
+
+    <!-- Tab Switcher Navigasi Admin -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
+        <div class="flex border-b border-slate-300 gap-2">
+            <a href="{{ route('admin.service.index') }}" class="px-6 py-3 font-bold text-sm text-green-700 border-b-2 border-green-600 bg-white/60 rounded-t-xl transition flex items-center gap-2 shadow-sm">
+                <span>📨</span> Permohonan Surat
+            </a>
+            <a href="{{ route('admin.archive.index') }}" class="px-6 py-3 font-bold text-sm text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition flex items-center gap-2">
+                <span>🗃️</span> Pengarsipan Data Warga
+            </a>
+        </div>
+    </div>
 </div>
 
 <!-- Konten Utama Tabel -->
