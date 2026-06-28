@@ -24,10 +24,20 @@ class AppServiceProvider extends ServiceProvider
         if (env('VERCEL')) {
             URL::forceScheme('https');
 
-            $dbPath = '/tmp/database.sqlite';
-            if (!file_exists($dbPath)) {
-                touch($dbPath);
-                Artisan::call('migrate', ['--force' => true]);
+            if (config('database.default') === 'sqlite') {
+                $dbPath = '/tmp/database.sqlite';
+                if (!file_exists($dbPath)) {
+                    touch($dbPath);
+                    Artisan::call('migrate', ['--force' => true]);
+                }
+            } else {
+                try {
+                    if (!\Illuminate\Support\Facades\Schema::hasTable('users')) {
+                        Artisan::call('migrate', ['--force' => true]);
+                    }
+                } catch (\Exception $e) {
+                    // Abaikan error saat proses build awal
+                }
             }
         }
 
