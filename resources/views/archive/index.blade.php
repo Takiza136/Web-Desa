@@ -150,8 +150,9 @@
                     <!-- Upload Box -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Unggah Foto / Scan Dokumen <span class="text-rose-500">*</span></label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-indigo-400 transition bg-slate-50/50 group">
-                            <div class="space-y-1 text-center">
+                        <div id="dropzone-container" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-indigo-400 transition bg-slate-50/50 group relative overflow-hidden">
+                            <!-- Default State -->
+                            <div id="default-upload-state" class="space-y-1 text-center">
                                 <svg class="mx-auto h-12 w-12 text-slate-400 group-hover:text-indigo-500 transition" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
@@ -162,6 +163,29 @@
                                     </label>
                                 </div>
                                 <p class="text-xs text-slate-500">Format JPG, PNG, atau PDF (Maksimal 5MB)</p>
+                            </div>
+
+                            <!-- Preview State (Hidden by default) -->
+                            <div id="preview-upload-state" class="hidden w-full text-center py-2 animate-fade-in-down">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold mb-3 shadow-sm">
+                                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    File Berhasil Dipilih!
+                                </div>
+                                <div id="preview-image-wrapper" class="mb-3 hidden justify-center">
+                                    <img id="preview-image" src="" alt="Preview Dokumen" class="max-h-48 rounded-lg border-2 border-indigo-200 shadow-md object-contain mx-auto">
+                                </div>
+                                <div id="preview-pdf-wrapper" class="mb-3 hidden justify-center items-center gap-2 p-4 bg-indigo-50/80 rounded-xl border border-indigo-200 max-w-sm mx-auto">
+                                    <span class="text-3xl">📄</span>
+                                    <div class="text-left overflow-hidden">
+                                        <div class="font-bold text-slate-800 text-sm truncate" id="pdf-filename">Dokumen.pdf</div>
+                                        <div class="text-xs text-indigo-600 font-semibold">Siap dilampirkan</div>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-bold text-slate-800" id="preview-file-name">filename.jpg</div>
+                                <div class="text-xs text-slate-500 mb-3" id="preview-file-size">2.4 MB</div>
+                                <label for="file_dokumen" class="inline-block cursor-pointer px-4 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold transition shadow-sm">
+                                    🔄 Ganti File Lain
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -183,4 +207,54 @@
 
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file_dokumen');
+    const defaultState = document.getElementById('default-upload-state');
+    const previewState = document.getElementById('preview-upload-state');
+    const previewImgWrapper = document.getElementById('preview-image-wrapper');
+    const previewImg = document.getElementById('preview-image');
+    const previewPdfWrapper = document.getElementById('preview-pdf-wrapper');
+    const pdfFilename = document.getElementById('pdf-filename');
+    const fileName = document.getElementById('preview-file-name');
+    const fileSize = document.getElementById('preview-file-size');
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const file = this.files[0];
+            fileName.textContent = file.name;
+            
+            // Format ukuran file
+            const sizeInKB = (file.size / 1024).toFixed(1);
+            const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+            fileSize.textContent = file.size > 1024 * 1024 ? `${sizeInMB} MB` : `${sizeInKB} KB`;
+
+            defaultState.classList.add('hidden');
+            previewState.classList.remove('hidden');
+
+            if (file.type.startsWith('image/')) {
+                previewPdfWrapper.classList.add('hidden');
+                previewImgWrapper.classList.remove('hidden');
+                previewImgWrapper.classList.add('flex');
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewImgWrapper.classList.add('hidden');
+                previewImgWrapper.classList.remove('flex');
+                previewPdfWrapper.classList.remove('hidden');
+                previewPdfWrapper.classList.add('flex');
+                pdfFilename.textContent = file.name;
+            }
+        } else {
+            defaultState.classList.remove('hidden');
+            previewState.classList.add('hidden');
+        }
+    });
+});
+</script>
 @endsection

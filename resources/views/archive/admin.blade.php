@@ -96,9 +96,21 @@
                             </td>
                             <td class="py-4 px-6 text-center whitespace-nowrap">
                                 @if($arc->file_path)
-                                    <a href="{{ asset($arc->file_path) }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition shadow-sm">
+                                    @php
+                                        $isDataUrl = str_starts_with($arc->file_path, 'data:');
+                                        $isImage = str_starts_with($arc->file_path, 'data:image/') || preg_match('/\.(jpg|jpeg|png)$/i', $arc->file_path);
+                                        $fileUrl = $isDataUrl || str_starts_with($arc->file_path, 'http') ? $arc->file_path : asset($arc->file_path);
+                                    @endphp
+                                    @if($isImage)
+                                        <div class="mb-1.5 flex justify-center">
+                                            <a href="{{ $fileUrl }}" target="_blank">
+                                                <img src="{{ $fileUrl }}" alt="Lampiran" class="h-12 w-16 object-cover rounded-lg border border-slate-200 shadow-sm hover:scale-125 transition transform cursor-pointer">
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <a href="{{ $fileUrl }}" target="_blank" download="Arsip_{{ str_replace(' ', '_', $arc->nama) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition shadow-sm">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        Lihat File
+                                        {{ $isImage ? 'Lihat Foto' : 'Unduh File' }}
                                     </a>
                                 @else
                                     <span class="text-xs text-slate-400 italic">Tanpa file</span>

@@ -43,15 +43,21 @@ class ArchiveController extends Controller
         if ($request->hasFile('file_dokumen')) {
             try {
                 $file = $request->file('file_dokumen');
-                $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $file->getClientOriginalName());
-                $destinationPath = public_path('uploads/archives');
-                if (!file_exists($destinationPath)) {
-                    @mkdir($destinationPath, 0755, true);
+                if (env('VERCEL') || config('database.default') !== 'sqlite') {
+                    // Untuk lingkungan Vercel/Supabase, simpan langsung sebagai Base64 Data URL di database
+                    $mimeType = $file->getMimeType();
+                    $base64 = base64_encode(file_get_contents($file->getRealPath()));
+                    $filePath = 'data:' . $mimeType . ';base64,' . $base64;
+                } else {
+                    $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $file->getClientOriginalName());
+                    $destinationPath = public_path('uploads/archives');
+                    if (!file_exists($destinationPath)) {
+                        @mkdir($destinationPath, 0755, true);
+                    }
+                    $file->move($destinationPath, $filename);
+                    $filePath = 'uploads/archives/' . $filename;
                 }
-                $file->move($destinationPath, $filename);
-                $filePath = 'uploads/archives/' . $filename;
             } catch (\Exception $e) {
-                // Fallback jika sistem file read-only
                 $filePath = null;
             }
         }

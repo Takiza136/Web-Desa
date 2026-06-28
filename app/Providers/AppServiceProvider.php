@@ -32,9 +32,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             } else {
                 try {
-                    if (!\Illuminate\Support\Facades\Schema::hasTable('users')) {
-                        Artisan::call('migrate', ['--force' => true]);
-                    }
+                    Artisan::call('migrate', ['--force' => true]);
                 } catch (\Exception $e) {
                     // Abaikan error saat proses build awal
                 }
