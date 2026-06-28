@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/surat/{letterRequest}', [ServiceController::class, 'destroy'])->name('admin.service.destroy');
 
     Route::get('/admin/arsip', [ArchiveController::class, 'adminIndex'])->name('admin.archive.index');
+    Route::get('/admin/arsip/{id}/file', [ArchiveController::class, 'showFile'])->name('admin.archive.file');
     Route::delete('/admin/arsip/{id}', [ArchiveController::class, 'destroy'])->name('admin.archive.destroy');
 });

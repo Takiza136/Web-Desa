@@ -223,6 +223,14 @@ document.addEventListener('DOMContentLoaded', function() {
     fileInput.addEventListener('change', function() {
         if (this.files && this.files[0]) {
             const file = this.files[0];
+            if (file.size > 3 * 1024 * 1024) {
+                alert('⚠️ Ukuran file Anda (' + (file.size / (1024 * 1024)).toFixed(2) + ' MB) melebihi batas maksimal 3 MB. Silakan kompres atau pilih file yang lebih kecil agar tidak gagal saat dikirim.');
+                this.value = '';
+                defaultState.classList.remove('hidden');
+                previewState.classList.add('hidden');
+                return;
+            }
+
             fileName.textContent = file.name;
             
             // Format ukuran file

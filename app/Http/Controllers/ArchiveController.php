@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ResidentArchive;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArchiveController extends Controller
 {
@@ -30,12 +31,12 @@ class ArchiveController extends Controller
             'no_kk' => 'nullable|string|max:16',
             'jenis_dokumen' => 'required|string',
             'nomor_dokumen' => 'required|string|max:255',
-            'file_dokumen' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120', // Max 5MB
+            'file_dokumen' => 'required|file|mimes:jpg,jpeg,png,pdf|max:3072', // Max 3MB untuk menjaga performa Vercel Serverless
             'keterangan' => 'nullable|string',
         ], [
             'file_dokumen.required' => 'Unggahan file scan/foto dokumen wajib dilampirkan.',
             'file_dokumen.mimes' => 'Format file harus berupa JPG, JPEG, PNG, atau PDF.',
-            'file_dokumen.max' => 'Ukuran maksimal file dokumen adalah 5MB.',
+            'file_dokumen.max' => 'Ukuran maksimal file dokumen adalah 3MB agar proses setor berjalan cepat & lancar.',
             'nik.size' => 'NIK harus berjumlah tepat 16 digit.',
         ]);
 
@@ -77,9 +78,33 @@ class ArchiveController extends Controller
 
     public function adminIndex()
     {
-        $archives = ResidentArchive::latest()->get();
+        // Hindari menarik seluruh string Base64 yang besar agar tidak melebihi batas payload Vercel Serverless (4.5MB)
+        $archives = ResidentArchive::select(
+            'id', 'nama', 'nik', 'no_kk', 'jenis_dokumen', 'nomor_dokumen', 'keterangan', 'created_at',
+            DB::raw("CASE WHEN file_path IS NOT NULL AND file_path != '' THEN 1 ELSE 0 END as has_file"),
+            DB::raw("SUBSTR(file_path, 1, 30) as file_preview")
+        )->latest()->get();
 
         return view('archive.admin', compact('archives'));
+    }
+
+    public function showFile($id)
+    {
+        $archive = ResidentArchive::findOrFail($id);
+        if (!$archive->file_path) {
+            abort(404);
+        }
+
+        if (str_starts_with($archive->file_path, 'data:')) {
+            $parts = explode(';', $archive->file_path);
+            $mimeType = str_replace('data:', '', $parts[0]);
+            $base64Data = explode(',', $archive->file_path)[1] ?? '';
+            $fileData = base64_decode($base64Data);
+
+            return response($fileData)->header('Content-Type', $mimeType);
+        }
+
+        return redirect(asset($archive->file_path));
     }
 
     public function destroy($id)
